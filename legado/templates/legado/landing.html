@@ -1,0 +1,92 @@
+{% extends 'legado/base.html' %}
+
+{% block title %}Inicio - Legado Digital{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-12 md:py-20 flex flex-col md:flex-row items-center justify-between gap-12">
+    
+    <!-- Hero Text -->
+    <div class="flex-1 space-y-8 text-center md:text-left">
+        <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-tight">
+            Preserva tu <span class="gradient-text">Sabiduría</span> para Siempre
+        </h1>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto md:mx-0">
+            Crea una bóveda de memorias interactiva. Tus familiares podrán conversar con una inteligencia artificial que responde basándose exclusivamente en las historias, recetas y consejos que tú has dejado escritos.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center gap-4 pt-4 justify-center md:justify-start">
+            <a href="{% url 'registro' %}" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-bold text-lg hover:from-brand-500 hover:to-indigo-500 transition-all shadow-lg shadow-brand-500/25 transform hover:-translate-y-1">
+                Comenzar Gratis
+            </a>
+            <a href="{% url 'login' %}" class="w-full sm:w-auto px-8 py-4 rounded-xl border-2 border-slate-700 text-slate-300 font-bold text-lg hover:bg-slate-800 hover:border-slate-600 transition-all">
+                Iniciar Sesión
+            </a>
+        </div>
+    </div>
+
+    <!-- Visual Element -->
+    <div class="flex-1 relative w-full max-w-lg">
+        <!-- Glow background -->
+        <div class="absolute inset-0 bg-brand-500/20 blur-[100px] rounded-full"></div>
+        
+        <!-- UI Mockup -->
+        <div class="relative glass rounded-3xl p-6 border border-slate-700 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
+            <div class="flex items-center gap-4 mb-6 pb-6 border-b border-slate-700/50">
+                <div class="w-12 h-12 rounded-full bg-indigo-500 flex items-center justify-center">
+                    <i class="fa-solid fa-brain text-white text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold">Buscador Familiar</h3>
+                    <p class="text-slate-400 text-sm">Respondiendo como @padre</p>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="flex items-start gap-3 justify-end">
+                    <div class="bg-brand-600 rounded-2xl rounded-tr-sm p-4 text-white max-w-[85%] text-sm">
+                        ¿Cuál es el secreto de tu tarta de manzana?
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center shrink-0 mt-1">
+                        <i class="fa-solid fa-robot text-slate-300 text-xs"></i>
+                    </div>
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl rounded-tl-sm p-4 text-slate-300 max-w-[85%] text-sm leading-relaxed">
+                        "El gran secreto es no usar azúcar blanca, siempre uso azúcar moreno y una cucharadita de canela extra en la mezcla de las manzanas. Lo aprendí de mi abuela."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="max-w-6xl mx-auto py-20 border-t border-dark-border mt-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass p-8 rounded-2xl text-center">
+            <div class="w-16 h-16 mx-auto bg-brand-500/10 rounded-xl flex items-center justify-center mb-6">
+                <i class="fa-solid fa-lock text-2xl text-brand-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Bóveda Segura</h3>
+            <p class="text-slate-400">Tus memorias están guardadas de forma permanente. Tú decides exactamente qué familiares tienen acceso a leerlas.</p>
+        </div>
+        
+        <div class="glass p-8 rounded-2xl text-center">
+            <div class="w-16 h-16 mx-auto bg-indigo-500/10 rounded-xl flex items-center justify-center mb-6">
+                <i class="fa-solid fa-wand-magic-sparkles text-2xl text-indigo-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Búsqueda Semántica</h3>
+            <p class="text-slate-400">La Inteligencia Artificial no inventa respuestas, solo busca similitudes exactas entre la pregunta de tu familiar y tus historias.</p>
+        </div>
+
+        <div class="glass p-8 rounded-2xl text-center">
+            <div class="w-16 h-16 mx-auto bg-purple-500/10 rounded-xl flex items-center justify-center mb-6">
+                <i class="fa-solid fa-infinity text-2xl text-purple-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Legado Eterno</h3>
+            <p class="text-slate-400">Planes de pago único. Sin mensualidades. Deja tu cápsula del tiempo pagada y asegurada para las próximas generaciones.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

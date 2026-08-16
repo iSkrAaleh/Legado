@@ -1,0 +1,58 @@
+{% extends 'legado/base.html' %}
+
+{% block title %}Iniciar Sesión - Legado Digital{% endblock %}
+
+{% block content %}
+<div class="min-h-[70vh] flex flex-col justify-center items-center px-4">
+    <div class="glass w-full max-w-md rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-500 to-indigo-600"></div>
+        
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold text-white">Bienvenido de vuelta</h2>
+            <p class="text-slate-400 mt-2">Accede a tu bóveda o buscador familiar</p>
+        </div>
+        
+        {% if form.errors %}
+            <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                <p>Usuario y/o contraseña incorrectos. Inténtalo de nuevo.</p>
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}" class="space-y-5">
+            {% csrf_token %}
+            <div>
+                <label for="id_username" class="block text-sm font-semibold text-slate-300 mb-2">Usuario</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-user text-slate-500"></i>
+                    </div>
+                    <input type="text" name="username" autofocus required id="id_username" class="!pl-10">
+                </div>
+            </div>
+            
+            <div>
+                <label for="id_password" class="block text-sm font-semibold text-slate-300 mb-2">Contraseña</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-lock text-slate-500"></i>
+                    </div>
+                    <input type="password" name="password" required id="id_password" class="!pl-10">
+                </div>
+            </div>
+            
+            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-bold text-lg hover:from-brand-500 hover:to-indigo-500 transition-all shadow-lg shadow-brand-500/20 transform hover:-translate-y-0.5">
+                Iniciar Sesión
+            </button>
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+        
+        <div class="mt-8 pt-6 border-t border-dark-border text-center">
+            <p class="text-slate-400 text-sm mb-4">¿No tienes una bóveda creada?</p>
+            <a href="{% url 'registro' %}" class="inline-block w-full py-2.5 rounded-lg border border-slate-600 text-slate-300 font-medium hover:bg-slate-800 hover:text-white transition-colors">
+                Registrarse y Obtener Prueba Gratis
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

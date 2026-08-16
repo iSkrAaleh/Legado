@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Legado Digital{% endblock %}</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            surface: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            background-image: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
+            color: #f8fafc;
+        }
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Django Forms */
+        input[type="text"], input[type="password"], textarea, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid #334155;
+            border-radius: 0.5rem;
+            color: white;
+            outline: none;
+            transition: all 0.2s;
+        }
+        input:focus, textarea:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+        }
+        .helptext { font-size: 0.875rem; color: #94a3b8; display: block; margin-top: 0.25rem; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="glass sticky top-0 z-50 border-b border-dark-border shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between py-4 md:py-0 md:h-20 gap-4">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="{% url 'dashboard' %}" class="flex items-center gap-3 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-infinity text-white text-lg"></i>
+                        </div>
+                        <span class="font-extrabold text-2xl tracking-tight gradient-text">Legado Digital</span>
+                    </a>
+                </div>
+
+                <!-- Nav Links -->
+                <nav class="flex flex-wrap items-center justify-center gap-4 md:space-x-6">
+                    {% if user.is_authenticated %}
+                        {% if not user.acceso_familiar %}
+                            <!-- Solo los creadores ven esto -->
+                            <a href="{% url 'dashboard' %}" class="text-slate-300 hover:text-white font-medium transition-colors">Mi Bóveda</a>
+                            <a href="{% url 'familiares' %}" class="text-slate-300 hover:text-white font-medium transition-colors">Familiares</a>
+                            <a href="{% url 'perfil' %}" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700 hover:bg-slate-800 hover:border-slate-600 transition-all">
+                                <i class="fa-solid fa-user-circle text-brand-500"></i>
+                                <span>Mi Perfil</span>
+                            </a>
+                        {% endif %}
+                        <form action="{% url 'logout' %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="text-red-400 hover:text-red-300 font-medium transition-colors ml-4">
+                                <i class="fa-solid fa-right-from-bracket mr-1"></i> Salir
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-slate-300 hover:text-white font-medium transition-colors">Iniciar Sesión</a>
+                        <a href="{% url 'registro' %}" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-brand-500 to-indigo-600 text-white font-semibold hover:from-brand-400 hover:to-indigo-500 transition-all shadow-lg shadow-brand-500/25">
+                            Crear Bóveda
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 animate-[fadeIn_0.5s_ease-out]">
+        
+        <!-- Alertas Django -->
+        {% if messages %}
+            <div class="mb-8 space-y-4">
+                {% for message in messages %}
+                    <div class="p-4 rounded-xl flex items-center gap-3 {% if message.tags == 'error' %}bg-red-500/10 border border-red-500/20 text-red-400{% else %}bg-green-500/10 border border-green-500/20 text-green-400{% endif %}">
+                        <i class="fa-solid {% if message.tags == 'error' %}fa-circle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-dark-border mt-auto py-8 text-center text-slate-500 text-sm">
+        <p>&copy; 2026 Legado Digital. Preservando memorias para siempre.</p>
+    </footer>
+
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>

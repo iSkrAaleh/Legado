@@ -1,0 +1,34 @@
+{% extends 'legado/base.html' %}
+
+{% block title %}Registro - Legado Digital{% endblock %}
+
+{% block content %}
+<div class="min-h-[70vh] flex flex-col justify-center items-center px-4">
+    <div class="glass w-full max-w-lg rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-500 to-indigo-600"></div>
+        
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold text-white">Crear tu Bóveda</h2>
+            <p class="text-slate-400 mt-2">Al registrarte obtendrás acceso a un plan de prueba por 14 días.</p>
+        </div>
+        
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <div class="pt-4">
+                <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-bold text-lg hover:from-brand-500 hover:to-indigo-500 transition-all shadow-lg shadow-brand-500/20 transform hover:-translate-y-0.5">
+                    Registrarme y Activar Prueba
+                </button>
+            </div>
+        </form>
+        
+        <div class="mt-8 pt-6 border-t border-dark-border text-center">
+            <p class="text-slate-400 text-sm mb-4">¿Ya tienes una bóveda o una cuenta de familiar?</p>
+            <a href="{% url 'login' %}" class="inline-block w-full py-2.5 rounded-lg border border-slate-600 text-slate-300 font-medium hover:bg-slate-800 hover:text-white transition-colors">
+                Iniciar Sesión
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'legado/base.html' %}
+
+{% block title %}Mis Familiares - Legado Digital{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-3xl font-extrabold text-white">Mis Familiares</h1>
+            <p class="text-slate-400 mt-2">Gestiona quiénes tienen acceso a tu cápsula de memorias.</p>
+        </div>
+        <a href="{% url 'familiar_crear' %}" class="px-5 py-2.5 rounded-lg bg-brand-600 text-white font-medium hover:bg-brand-500 transition-colors shadow-lg shadow-brand-500/20 whitespace-nowrap flex items-center justify-center gap-2">
+            <i class="fa-solid fa-user-plus"></i>
+            Crear Familiar
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for familiar in familiares %}
+            <div class="glass rounded-xl p-6 relative group overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="flex justify-between items-start relative z-10">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">{{ familiar.usuario.username }}</h3>
+                            <p class="text-sm text-slate-400">Añadido el {{ familiar.creado_en|date:"d M Y" }}</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'familiar_password' familiar.pk %}" title="Cambiar Contraseña" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-700 transition-colors">
+                        <i class="fa-solid fa-key"></i>
+                    </a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-span-1 md:col-span-2 text-center py-16 glass rounded-2xl">
+                <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-700">
+                    <i class="fa-solid fa-users-slash text-3xl text-slate-500"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">No hay familiares registrados</h3>
+                <p class="text-slate-400 mb-6 max-w-md mx-auto">Crea cuentas para tus seres queridos para que puedan acceder y buscar en tu bóveda.</p>
+                <a href="{% url 'familiar_crear' %}" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-brand-600 text-white font-medium hover:bg-brand-500 transition-colors">
+                    <i class="fa-solid fa-user-plus"></i> Crear el primero
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'legado/base.html' %}
+
+{% block title %}{% if object %}Editar Memoria{% else %}Nueva Memoria{% endif %} - Legado Digital{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto space-y-6">
+    <div class="mb-8">
+        <a href="{% url 'dashboard' %}" class="text-slate-400 hover:text-white inline-flex items-center gap-2 transition-colors mb-4">
+            <i class="fa-solid fa-arrow-left"></i> Volver a la Bóveda
+        </a>
+        <h1 class="text-3xl font-extrabold text-white">{% if object %}Editar Memoria{% else %}Crear Nueva Memoria{% endif %}</h1>
+        <p class="text-slate-400 mt-2">{% if object %}Modifica los detalles de esta memoria.{% else %}Añade un nuevo recuerdo, receta o sabiduría a tu legado.{% endif %}</p>
+    </div>
+
+    <div class="glass rounded-2xl p-8 relative">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-slate-300 mb-2">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <p class="helptext">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="text-red-400 text-sm mt-1">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            
+            <div class="mt-8 pt-6 border-t border-dark-border flex gap-4">
+                <a href="{% url 'dashboard' %}" class="w-1/3 py-3 rounded-lg border border-slate-600 text-center text-slate-300 font-medium hover:bg-slate-800 transition-colors">Cancelar</a>
+                <button type="submit" class="w-2/3 py-3 rounded-lg bg-brand-600 text-white font-bold text-lg hover:bg-brand-500 transition-colors shadow-lg shadow-brand-500/20">
+                    <i class="fa-solid fa-save mr-2"></i> Guardar Memoria
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

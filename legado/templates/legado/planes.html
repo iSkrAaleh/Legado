@@ -1,0 +1,135 @@
+{% extends 'legado/base.html' %}
+
+{% block title %}Planes y Precios - Legado Digital{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-12">
+    
+    <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Elige tu Legado</h1>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">Selecciona el plan que mejor se adapte a tu familia. Todos nuestros planes de pago son de <strong class="text-white">pago único de por vida</strong>.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Plan Básico -->
+        <div class="glass rounded-3xl p-8 flex flex-col relative {% if plan_actual == 'BASIC' %}border-brand-500 shadow-xl shadow-brand-500/20{% endif %} hover:-translate-y-2 transition-transform duration-300">
+            {% if plan_actual == 'BASIC' %}
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-500 text-white text-xs font-bold uppercase tracking-wider rounded-full">Tu Plan Actual</div>
+            {% endif %}
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-white mb-2">Básico</h3>
+                <p class="text-slate-400 text-sm h-10">Para familias pequeñas que desean empezar su legado.</p>
+                <div class="mt-6 flex items-baseline gap-1">
+                    <span class="text-4xl font-extrabold text-white">$49</span>
+                    <span class="text-slate-400 font-medium">/único</span>
+                </div>
+            </div>
+            
+            <ul class="space-y-4 mb-8 flex-1">
+                <li class="flex items-start gap-3 text-slate-300">
+                    <i class="fa-solid fa-check text-brand-500 mt-1"></i>
+                    <span>Hasta <strong class="text-white">3 familiares</strong></span>
+                </li>
+                <li class="flex items-start gap-3 text-slate-300">
+                    <i class="fa-solid fa-check text-brand-500 mt-1"></i>
+                    <span><strong class="text-white">20 consultas</strong> a la IA por día</span>
+                </li>
+                <li class="flex items-start gap-3 text-slate-300">
+                    <i class="fa-solid fa-check text-brand-500 mt-1"></i>
+                    <span>Bóveda permanente</span>
+                </li>
+            </ul>
+
+            <form method="post" action="{% url 'simular_pago' 'BASIC' %}">
+                {% csrf_token %}
+                <button type="submit" {% if plan_actual == 'BASIC' %}disabled{% endif %} class="w-full py-3.5 rounded-xl font-bold transition-all {% if plan_actual == 'BASIC' %}bg-slate-700 text-slate-400 cursor-not-allowed{% else %}bg-slate-800 hover:bg-slate-700 text-white border border-slate-600{% endif %}">
+                    {% if plan_actual == 'BASIC' %}Plan Actual{% else %}Simular Pago{% endif %}
+                </button>
+            </form>
+        </div>
+
+        <!-- Plan Pro (Destacado) -->
+        <div class="bg-gradient-to-b from-brand-600 to-indigo-900 rounded-3xl p-1 flex flex-col relative transform md:-translate-y-4 shadow-2xl shadow-brand-500/30 hover:-translate-y-6 transition-transform duration-300">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">Más Popular</div>
+            
+            <div class="bg-slate-900 rounded-[23px] p-8 flex flex-col h-full relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-500/20 blur-3xl rounded-full"></div>
+                
+                {% if plan_actual == 'PRO' %}
+                    <div class="absolute top-4 right-4"><i class="fa-solid fa-circle-check text-brand-400 text-xl"></i></div>
+                {% endif %}
+                
+                <div class="mb-8 relative z-10">
+                    <h3 class="text-2xl font-bold text-white mb-2 text-brand-400">Profesional</h3>
+                    <p class="text-slate-400 text-sm h-10">La mejor opción para conservar un legado extenso.</p>
+                    <div class="mt-6 flex items-baseline gap-1">
+                        <span class="text-5xl font-extrabold text-white">$99</span>
+                        <span class="text-slate-400 font-medium">/único</span>
+                    </div>
+                </div>
+                
+                <ul class="space-y-4 mb-8 flex-1 relative z-10">
+                    <li class="flex items-start gap-3 text-slate-300">
+                        <i class="fa-solid fa-check text-brand-500 mt-1"></i>
+                        <span>Hasta <strong class="text-white">10 familiares</strong></span>
+                    </li>
+                    <li class="flex items-start gap-3 text-slate-300">
+                        <i class="fa-solid fa-check text-brand-500 mt-1"></i>
+                        <span><strong class="text-white">100 consultas</strong> a la IA por día</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-slate-300">
+                        <i class="fa-solid fa-check text-brand-500 mt-1"></i>
+                        <span>Soporte prioritario</span>
+                    </li>
+                </ul>
+
+                <form method="post" action="{% url 'simular_pago' 'PRO' %}" class="relative z-10">
+                    {% csrf_token %}
+                    <button type="submit" {% if plan_actual == 'PRO' %}disabled{% endif %} class="w-full py-3.5 rounded-xl font-bold transition-all shadow-lg {% if plan_actual == 'PRO' %}bg-brand-500/50 text-white cursor-not-allowed{% else %}bg-gradient-to-r from-brand-500 to-indigo-500 hover:from-brand-400 hover:to-indigo-400 text-white shadow-brand-500/25{% endif %}">
+                        {% if plan_actual == 'PRO' %}Plan Actual{% else %}Simular Pago{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Plan Premium -->
+        <div class="glass rounded-3xl p-8 flex flex-col relative {% if plan_actual == 'PREMIUM' %}border-purple-500 shadow-xl shadow-purple-500/20{% endif %} hover:-translate-y-2 transition-transform duration-300">
+            {% if plan_actual == 'PREMIUM' %}
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-full">Tu Plan Actual</div>
+            {% endif %}
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-white mb-2">Premium</h3>
+                <p class="text-slate-400 text-sm h-10">Para legados generacionales sin ningún tipo de límite.</p>
+                <div class="mt-6 flex items-baseline gap-1">
+                    <span class="text-4xl font-extrabold text-white">$199</span>
+                    <span class="text-slate-400 font-medium">/único</span>
+                </div>
+            </div>
+            
+            <ul class="space-y-4 mb-8 flex-1">
+                <li class="flex items-start gap-3 text-slate-300">
+                    <i class="fa-solid fa-infinity text-purple-400 mt-1"></i>
+                    <span>Familiares <strong class="text-white">Ilimitados</strong></span>
+                </li>
+                <li class="flex items-start gap-3 text-slate-300">
+                    <i class="fa-solid fa-infinity text-purple-400 mt-1"></i>
+                    <span>Consultas a la IA <strong class="text-white">Ilimitadas</strong></span>
+                </li>
+                <li class="flex items-start gap-3 text-slate-300">
+                    <i class="fa-solid fa-check text-purple-400 mt-1"></i>
+                    <span>Insignia de Legado Eterno</span>
+                </li>
+            </ul>
+
+            <form method="post" action="{% url 'simular_pago' 'PREMIUM' %}">
+                {% csrf_token %}
+                <button type="submit" {% if plan_actual == 'PREMIUM' %}disabled{% endif %} class="w-full py-3.5 rounded-xl font-bold transition-all {% if plan_actual == 'PREMIUM' %}bg-slate-700 text-slate-400 cursor-not-allowed{% else %}bg-slate-800 hover:bg-slate-700 text-white border border-slate-600{% endif %}">
+                    {% if plan_actual == 'PREMIUM' %}Plan Actual{% else %}Simular Pago{% endif %}
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

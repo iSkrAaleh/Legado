@@ -1,0 +1,28 @@
+{% extends 'legado/base.html' %}
+
+{% block title %}Eliminar Memoria - Legado Digital{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto py-12">
+    <div class="glass rounded-2xl p-8 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 bg-red-500"></div>
+        
+        <div class="w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
+            <i class="fa-solid fa-triangle-exclamation text-4xl text-red-400"></i>
+        </div>
+        
+        <h1 class="text-3xl font-extrabold text-white mb-4">¿Estás seguro?</h1>
+        <p class="text-slate-400 text-lg mb-8">Vas a eliminar la memoria <strong class="text-white">"{{ object.pregunta_referencia }}"</strong>. Al archivarla, tus familiares ya no podrán buscarla.</p>
+        
+        <form method="post" class="flex gap-4">
+            {% csrf_token %}
+            <a href="{% url 'dashboard' %}" class="flex-1 py-3 rounded-xl border border-slate-600 text-slate-300 font-medium hover:bg-slate-800 transition-colors">
+                Cancelar
+            </a>
+            <button type="submit" class="flex-1 py-3 rounded-xl bg-red-500 text-white font-bold hover:bg-red-600 transition-colors shadow-lg shadow-red-500/20">
+                Sí, eliminar
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

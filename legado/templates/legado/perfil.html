@@ -1,0 +1,61 @@
+{% extends 'legado/base.html' %}
+
+{% block title %}Mi Perfil - Legado Digital{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-3xl font-extrabold text-white mb-8">Mi Perfil</h1>
+
+    <!-- Datos del Usuario -->
+    <div class="glass rounded-2xl p-8 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-1 h-full bg-brand-500"></div>
+        <div class="flex items-center gap-6">
+            <div class="w-20 h-20 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+                <i class="fa-solid fa-user text-3xl text-slate-400"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white">{{ user.username }}</h3>
+                <p class="text-slate-400 mt-1">Miembro desde {{ user.date_joined|date:"d M Y" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suscripción -->
+    <div class="glass rounded-2xl p-8 relative overflow-hidden">
+        {% if suscripcion.is_valid %}
+            <div class="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
+        {% else %}
+            <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
+        {% endif %}
+        
+        <h3 class="text-xl font-bold text-white mb-4">Estado de la Suscripción</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-dark-surface/50 rounded-xl p-5 border border-dark-border">
+                <p class="text-slate-400 text-sm font-semibold uppercase tracking-wider mb-1">Plan Actual</p>
+                <p class="text-xl font-bold text-white">{{ suscripcion.get_plan_display }}</p>
+            </div>
+            <div class="bg-dark-surface/50 rounded-xl p-5 border border-dark-border">
+                <p class="text-slate-400 text-sm font-semibold uppercase tracking-wider mb-1">Estado</p>
+                {% if suscripcion.is_valid %}
+                    <p class="text-xl font-bold text-green-400 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> Activa</p>
+                {% else %}
+                    <p class="text-xl font-bold text-red-400 flex items-center gap-2"><i class="fa-solid fa-times-circle"></i> Expirada</p>
+                {% endif %}
+            </div>
+            {% if suscripcion.activa_hasta %}
+            <div class="bg-dark-surface/50 rounded-xl p-5 border border-dark-border md:col-span-2">
+                <p class="text-slate-400 text-sm font-semibold uppercase tracking-wider mb-1">Válida hasta</p>
+                <p class="text-xl font-bold text-white">{{ suscripcion.activa_hasta|date:"d M Y, H:i" }}</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="mt-8 pt-6 border-t border-dark-border flex justify-end">
+            <a href="{% url 'planes' %}" class="px-6 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium border border-slate-600 transition-colors">
+                Mejorar Plan
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
